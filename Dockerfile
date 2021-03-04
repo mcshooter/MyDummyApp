@@ -1,5 +1,5 @@
 FROM golang:1.8-alpine
-ADD . /go/src/gowiki
+ADD ./src /go/src/gowiki
 RUN go install gowiki
 
 FROM alpine:latest
