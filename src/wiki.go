@@ -13,10 +13,10 @@ import (
 // Page struct
 type Page struct {
 	Title string
-	Body  []byte
+	Body  template.HTML
 }
 
-var templates = template.Must(template.ParseFiles("edit.html", "view.html"))
+var templates = template.Must(template.ParseFiles("tmpl/edit.html", "tmpl/view.html"))
 
 var validPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9]+)$")
 
@@ -61,17 +61,17 @@ func viewHandler(w http.ResponseWriter, r *http.Request, title string) {
 }
 
 func loadPage(title string) (*Page, error) {
-	filename := title + ".txt"
+	filename := "data/" + title + ".html"
 	body, err := ioutil.ReadFile(filename)
 	if err != nil {
 		return nil, err
 	}
-	return &Page{Title: title, Body: body}, nil
+	return &Page{Title: title, Body: template.HTML(body)}, nil
 }
 
 func (p *Page) save() error {
-	filename := p.Title + ".txt"
-	return ioutil.WriteFile(filename, p.Body, 0600)
+	filename := "data/" + p.Title + ".html"
+	return ioutil.WriteFile(filename, []byte(p.Body), 0600)
 }
 
 func editHandler(w http.ResponseWriter, r *http.Request, title string) {
@@ -84,7 +84,7 @@ func editHandler(w http.ResponseWriter, r *http.Request, title string) {
 
 func saveHandler(w http.ResponseWriter, r *http.Request, title string) {
 	body := r.FormValue("body")
-	p := &Page{Title: title, Body: []byte(body)}
+	p := &Page{Title: title, Body: template.HTML([]byte(body))}
 	err := p.save()
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
