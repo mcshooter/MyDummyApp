@@ -4,3 +4,10 @@ steps:
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/michelletandya-gke-dev/gowiki:tag1']
 
+- name: 'gcr.io/cloud-builders/gke-deploy'
+  args:
+  - run
+  - --filename=kubernetes-resource.yaml
+  - --location=us-central1-c
+  - --cluster=mytestcluster
+

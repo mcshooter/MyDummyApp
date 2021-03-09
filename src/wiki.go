@@ -21,7 +21,7 @@ var templates = template.Must(template.ParseFiles("tmpl/edit.html", "tmpl/view.h
 var validPath = regexp.MustCompile("^/(edit|save|view)/([a-zA-Z0-9]+)$")
 
 func handler(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintf(w, "Hi, there, I love %s!", r.URL.Path[1:])
+	fmt.Fprintf(w, "Hi, there! This is a simple wiki page. You can view or create a new page by navigating to /view/{your page name}.")
 }
 
 func makeHandler(fn func(http.ResponseWriter, *http.Request, string)) http.HandlerFunc {
