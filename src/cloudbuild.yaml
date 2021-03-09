@@ -1,0 +1,6 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: [ 'build', '-t', 'gcr.io/michelletandya-gke-dev/gowiki:tag1', '.']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/michelletandya-gke-dev/gowiki:tag1']
+
