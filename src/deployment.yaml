@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: gowiki-app
+  labels:
+    app: gowiki-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: gowiki-app
+  template:
+    metadata:
+      labels:
+        app: gowiki-app
+    spec:
+      nodeSelector:
+        kubernetes.io/os: windows
+      containers:
+      - name: gowiki-server
+        image: gcr.io/michelletandya-gke-dev/multiarch-gowiki:v1
+
